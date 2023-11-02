@@ -1,9 +1,7 @@
 import { Button } from "@/components/ui/button";
-import { testing } from "@/lib/actions/sample";
 import Link from "next/link";
 
 const LandingPage = () => {
-  const response = testing()
   return (
     <div>
       <div>Landing Page</div>

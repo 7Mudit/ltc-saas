@@ -14,11 +14,13 @@ import { useRouter } from "next/navigation";
 import { Loader } from "@/components/Loader";
 import Empty from "@/components/Empty";
 import { cn } from "@/lib/utils";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 
 const VideoPage = () => {
   const router = useRouter();
   const [video, setVideo] = useState<string>();
+  const proModal = useProModal();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -37,8 +39,9 @@ const VideoPage = () => {
       setVideo(response.data[0])
       form.reset();
     } catch (Err: any) {
-      // open pro modal
-      console.log(Err);
+      if(Err?.response?.status === 403){
+        proModal.onOpen();
+      }
     } finally {
       router.refresh();
     }
