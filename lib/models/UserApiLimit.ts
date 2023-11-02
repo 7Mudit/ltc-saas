@@ -20,4 +20,6 @@ const userApiLimitSchema = new mongoose.Schema({
     }
   }, { timestamps: true });
 
-export const UserApiLimit = mongoose.model('UserApiLimit', userApiLimitSchema);
+  export const UserApiLimit = mongoose.models.UserApiLimit || mongoose.model('UserApiLimit', userApiLimitSchema);
+
+  

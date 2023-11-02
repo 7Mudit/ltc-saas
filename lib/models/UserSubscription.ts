@@ -24,4 +24,6 @@ const userSubscriptionSchema = new mongoose.Schema({
     }
 },{timestamps : true})
 
-export const UserSubscription = mongoose.model('UserSubscription' , userSubscriptionSchema);
+// Check if the model exists before trying to compile it
+export const UserSubscription = mongoose.models.UserSubscription || mongoose.model('UserSubscription', userSubscriptionSchema);
+
