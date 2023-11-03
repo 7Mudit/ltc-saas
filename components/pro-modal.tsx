@@ -18,6 +18,7 @@ import { Button } from "./ui/button";
 import { NextResponse } from "next/server";
 import axios from "axios";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export const ProModal = () => {
   const proModal = useProModal();
@@ -29,6 +30,7 @@ export const ProModal = () => {
       window.location.href = response.data.url;
     } catch (err: any) {
       console.log("Stripe client error", err);
+      toast.error("Something went wrong")
     } finally {
       setLoading(false);
     }
@@ -66,7 +68,7 @@ export const ProModal = () => {
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button className="w-full" size="lg" onClick={onSubscribe} variant="premium">
+          <Button disabled={loading} className="w-full" size="lg" onClick={onSubscribe} variant="premium">
             Upgrade
             <Zap className="w-4 h-4 ml-2"></Zap>
           </Button>
