@@ -11,7 +11,6 @@ import { Form, FormField, FormItem, FormControl } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import { ChatCompletionRequestMessage } from "openai";
 import { Loader } from "@/components/Loader";
 import Empty from "@/components/Empty";
 import { cn } from "@/lib/utils";
@@ -20,6 +19,10 @@ import { BotAvatar } from "@/components/ui/bot-avatar";
 import ReactMarkdown from "react-markdown";
 import { useProModal } from "@/hooks/use-pro-modal";
 import toast from "react-hot-toast";
+interface ChatCompletionRequestMessage {
+  role: 'user' | 'bot';
+  content: string;
+}
 
 const ConversationPage = () => {
   const router = useRouter();
