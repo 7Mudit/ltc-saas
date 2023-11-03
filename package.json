@@ -21,6 +21,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "crisp-sdk-web": "^1.0.21",
+    "encoding": "^0.1.13",
     "lucide-react": "^0.289.0",
     "mongoose": "^7.6.3",
     "next": "13.5.6",
