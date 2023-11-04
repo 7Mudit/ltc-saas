@@ -5,6 +5,7 @@ import axios from "axios";
 import { Settings } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
+import { URL } from "@/app/constants";
 
 const SettingsPage = () => {
   const { user } = useUser();
@@ -16,7 +17,7 @@ const SettingsPage = () => {
       try {
         // Ensure you have a correct endpoint and the server is expecting a POST request
         const response = await axios.post(
-          "http://localhost:8000/api/checkSubscription",
+          `${URL}/api/checkSubscription`,
           { userId: userId }
         );
         setIsPro(response?.data?.data); // Update state based on response

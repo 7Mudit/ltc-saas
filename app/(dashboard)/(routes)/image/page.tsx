@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { Loader } from "@/components/Loader";
 import Empty from "@/components/Empty";
-import { cn } from "@/lib/utils";
+import { URL } from "@/app/constants";
 import {
   Select,
   SelectItem,
@@ -50,7 +50,7 @@ const ImagePage = () => {
     try {
       setImages([]);
 
-      const response = await axios.post("http://localhost:8000/api/image", {
+      const response = await axios.post(`${URL}/api/image`, {
         ...values,
         userId: userId,
       });

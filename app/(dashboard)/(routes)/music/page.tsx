@@ -16,6 +16,7 @@ import Empty from "@/components/Empty";
 import { useUser } from '@clerk/nextjs';
 import { useProModal } from "@/hooks/use-pro-modal";
 import toast from "react-hot-toast";
+import { URL } from "@/app/constants";
 
 const MusicPage = () => {
   const router = useRouter();
@@ -36,7 +37,7 @@ const MusicPage = () => {
     console.log(values);
     try {
       setMusic(undefined)
-      const response = await axios.post("http://localhost:8000/api/music" , {...values,userId : userId});
+      const response = await axios.post(`${URL}/api/music` , {...values,userId : userId});
       setMusic(response.data.data.audio)
       form.reset();
     } catch (Err: any) {

@@ -20,6 +20,7 @@ import ReactMarkdown from "react-markdown";
 import { useProModal } from "@/hooks/use-pro-modal";
 import toast from "react-hot-toast";
 import { useUser } from '@clerk/nextjs';
+import { URL } from "@/app/constants";
 
 interface ChatCompletionRequestMessage {
   role: 'user' | 'bot';
@@ -49,7 +50,7 @@ const CodePage = () => {
         content: values.prompt,
       };
       const newMessages = [...messages, userMessage];
-      const response = await axios.post("http://localhost:8000/api/code", {
+      const response = await axios.post(`${URL}/api/code`, {
         userId : userId ,
         messages: newMessages,
       });

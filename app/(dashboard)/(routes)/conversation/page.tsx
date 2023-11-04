@@ -20,6 +20,7 @@ import { BotAvatar } from "@/components/ui/bot-avatar";
 import ReactMarkdown from "react-markdown";
 import { useProModal } from "@/hooks/use-pro-modal";
 import toast from "react-hot-toast";
+import { URL } from "@/app/constants";
 interface ChatCompletionRequestMessage {
   role: 'user' | 'bot';
   content: string;
@@ -49,7 +50,7 @@ const ConversationPage = () => {
         content: values.prompt,
       };
       const newMessages = [...messages, userMessage];
-      const response = await axios.post("http://localhost:8000/api/conversation", {
+      const response = await axios.post(`${URL}/api/conversation`, {
         // userId : "user_2XfiuDpDLptmU5VWsKV5hiOcgco",
         userId : userId , 
         messages: newMessages,

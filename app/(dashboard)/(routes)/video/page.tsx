@@ -13,11 +13,10 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { Loader } from "@/components/Loader";
 import Empty from "@/components/Empty";
-import { cn } from "@/lib/utils";
 import { useProModal } from "@/hooks/use-pro-modal";
 import toast from "react-hot-toast";
 import { useUser } from '@clerk/nextjs';
-
+import { URL } from "@/app/constants";
 
 const VideoPage = () => {
   const router = useRouter();
@@ -39,7 +38,7 @@ const VideoPage = () => {
     console.log(values);
     try {
       setVideo(undefined)
-      const response = await axios.post("http://localhost:8000/api/video" , {...values , userId : userId});
+      const response = await axios.post(`${URL}/api/video` , {...values , userId : userId});
       setVideo(response.data.data[0])
       form.reset();
     } catch (Err: any) {

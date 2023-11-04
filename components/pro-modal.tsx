@@ -15,10 +15,10 @@ import { Card } from "./ui/card";
 import { cn } from "@/lib/utils";
 import { Check, Zap } from "lucide-react";
 import { Button } from "./ui/button";
-import { NextResponse } from "next/server";
 import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { URL } from "@/app/constants";
 
 export const ProModal = () => {
   const proModal = useProModal();
@@ -26,7 +26,7 @@ export const ProModal = () => {
   const onSubscribe = async () => {
     try {
       setLoading(true);
-      const response = await axios.get("/api/stripe");
+      const response = await axios.get(`${URL}/api/stripe`);
       window.location.href = response.data.url;
     } catch (err: any) {
       console.log("Stripe client error", err);

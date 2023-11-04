@@ -6,6 +6,7 @@ import { Zap } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { useUser } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
+import { URL } from "@/app/constants";
 
 export const SubscriptionButton = ({ isPro = false }: { isPro: boolean }) => {
   const [loading, setLoading] = useState(false);
@@ -16,7 +17,7 @@ export const SubscriptionButton = ({ isPro = false }: { isPro: boolean }) => {
     try {
       setLoading(true);
 
-      const response = await axios.post("http://localhost:8000/api/stripe" , {
+      const response = await axios.post(`${URL}/api/stripe` , {
         userId : userId ,
         user : user
       });
