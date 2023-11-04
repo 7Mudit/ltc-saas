@@ -2,7 +2,7 @@ import { Code, ImageIcon, MessageSquare, Music, VideoIcon } from "lucide-react";
 
 export const MAX_FREE_COUNTS = 5;
 // export const URL = "http://localhost:8000"
-export const URL = "https://sass-learn-to-code.onrender.com"
+export const URL = "https://sass-learn-to-code-second.onrender.com"
 
 export const tools = [
   {
