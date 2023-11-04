@@ -1,6 +1,5 @@
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
-import OpenAI from "openai";
 import Replicate from "replicate";
 import { checkApiLimit, increaseApiLimit } from "@/lib/actions/api-limit";
 import { checkSubscription } from "@/lib/actions/subscription";

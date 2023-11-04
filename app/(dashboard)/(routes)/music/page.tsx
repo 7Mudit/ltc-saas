@@ -13,9 +13,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { Loader } from "@/components/Loader";
 import Empty from "@/components/Empty";
-import { cn } from "@/lib/utils";
-import { UserAvatar } from "@/components/ui/user-avatar";
-import { BotAvatar } from "@/components/ui/bot-avatar";
+import { useUser } from '@clerk/nextjs';
 import { useProModal } from "@/hooks/use-pro-modal";
 import toast from "react-hot-toast";
 
@@ -23,7 +21,8 @@ const MusicPage = () => {
   const router = useRouter();
   const proModal = useProModal()
   const [music, setMusic] = useState<string>();
-
+  const { user } = useUser();
+  const userId = user?.id; // Now you have the userId on the client sid
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -37,8 +36,8 @@ const MusicPage = () => {
     console.log(values);
     try {
       setMusic(undefined)
-      const response = await axios.post("/api/music" , values);
-      setMusic(response.data.audio)
+      const response = await axios.post("http://localhost:8000/api/music" , {...values,userId : userId});
+      setMusic(response.data.data.audio)
       form.reset();
     } catch (Err: any) {
       if(Err?.response?.status === 403){

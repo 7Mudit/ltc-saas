@@ -7,6 +7,7 @@ import { MessageSquare } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { formSchema } from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useUser } from '@clerk/nextjs';
 import { Form, FormField, FormItem, FormControl } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -27,6 +28,8 @@ interface ChatCompletionRequestMessage {
 const ConversationPage = () => {
   const router = useRouter();
   const proModal = useProModal();
+  const { user } = useUser();
+  const userId = user?.id; // Now you have the userId on the client sid
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -46,10 +49,12 @@ const ConversationPage = () => {
         content: values.prompt,
       };
       const newMessages = [...messages, userMessage];
-      const response = await axios.post("/api/conversation", {
+      const response = await axios.post("http://localhost:8000/api/conversation", {
+        // userId : "user_2XfiuDpDLptmU5VWsKV5hiOcgco",
+        userId : userId , 
         messages: newMessages,
       });
-      setMessages((current) => [...current, userMessage, response.data]);
+      setMessages((current) => [...current, userMessage, response.data.data]);
       form.reset();
     } catch (Err: any) {
       if(Err?.response?.status === 403){

@@ -19,6 +19,7 @@ import { BotAvatar } from "@/components/ui/bot-avatar";
 import ReactMarkdown from "react-markdown";
 import { useProModal } from "@/hooks/use-pro-modal";
 import toast from "react-hot-toast";
+import { useUser } from '@clerk/nextjs';
 
 interface ChatCompletionRequestMessage {
   role: 'user' | 'bot';
@@ -27,6 +28,8 @@ interface ChatCompletionRequestMessage {
 const CodePage = () => {
   const router = useRouter();
   const proModal = useProModal();
+  const { user } = useUser();
+  const userId = user?.id; // Now you have the userId on the client sid
   const [messages, setMessages] = useState<ChatCompletionRequestMessage[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -46,10 +49,11 @@ const CodePage = () => {
         content: values.prompt,
       };
       const newMessages = [...messages, userMessage];
-      const response = await axios.post("/api/code", {
+      const response = await axios.post("http://localhost:8000/api/code", {
+        userId : userId ,
         messages: newMessages,
       });
-      setMessages((current) => [...current, userMessage, response.data]);
+      setMessages((current) => [...current, userMessage, response.data.data]);
       form.reset();
     } catch (Err: any) {
       if(Err?.response?.status === 403){

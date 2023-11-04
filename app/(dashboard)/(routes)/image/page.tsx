@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Heading } from "@/components/Heading";
 import { Download, ImageIcon } from "lucide-react";
+import { useUser } from "@clerk/nextjs";
 import { useForm } from "react-hook-form";
 import { amountOptions, formSchema, resolutionOptions } from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -29,6 +30,8 @@ import toast from "react-hot-toast";
 const ImagePage = () => {
   const router = useRouter();
   const proModal = useProModal();
+  const { user } = useUser();
+  const userId = user?.id; // Now you have the userId on the client sid
   const [images, setImages] = useState<string[]>([]);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -47,17 +50,20 @@ const ImagePage = () => {
     try {
       setImages([]);
 
-      const response = await axios.post("/api/image", values);
+      const response = await axios.post("http://localhost:8000/api/image", {
+        ...values,
+        userId: userId,
+      });
 
-      const urls = response.data.map((image: { url: string }) => image.url);
+      const urls = response.data.data.map((image: { url: string }) => image.url);
       setImages(urls);
 
       form.reset();
     } catch (Err: any) {
-      if(Err?.response?.status === 403){
+      if (Err?.response?.status === 403) {
         proModal.onOpen();
-      }else{
-        toast.error("Something went wrong")
+      } else {
+        toast.error("Something went wrong");
       }
     } finally {
       router.refresh();
@@ -186,7 +192,11 @@ const ImagePage = () => {
                   <Image alt="Image" fill src={src} />
                 </div>
                 <CardFooter className="p-2">
-                  <Button onClick={() => window.open(src)} variant="secondary" className="w-full">
+                  <Button
+                    onClick={() => window.open(src)}
+                    variant="secondary"
+                    className="w-full"
+                  >
                     <Download className="h-4 w-4 mr-2" />
                     Download
                   </Button>
