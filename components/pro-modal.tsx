@@ -19,14 +19,20 @@ import axios from "axios";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { URL } from "@/app/constants";
+import { useUser } from "@clerk/nextjs";
 
 export const ProModal = () => {
   const proModal = useProModal();
   const [loading, setLoading] = useState(false);
+  const { user } = useUser();
+  const userId = user?.id; // Now you have the userId on the client sid
   const onSubscribe = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${URL}/api/stripe`);
+      const response = await axios.post(`${URL}/api/stripe`, {
+        userId : userId ,
+        user : user
+      });
       window.location.href = response.data.url;
     } catch (err: any) {
       console.log("Stripe client error", err);
