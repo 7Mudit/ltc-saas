@@ -7,7 +7,7 @@ import { MessageSquare } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { formSchema } from "./constants";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useUser } from '@clerk/nextjs';
+import { useUser } from "@clerk/nextjs";
 import { Form, FormField, FormItem, FormControl } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -22,7 +22,7 @@ import { useProModal } from "@/hooks/use-pro-modal";
 import toast from "react-hot-toast";
 import { URL } from "@/app/constants";
 interface ChatCompletionRequestMessage {
-  role: 'user' | 'bot';
+  role: "user" | "bot";
   content: string;
 }
 
@@ -50,18 +50,24 @@ const ConversationPage = () => {
         content: values.prompt,
       };
       const newMessages = [...messages, userMessage];
-      const response = await axios.post(`${URL}/api/conversation`, {
+      // const response = await axios.post(`${URL}/api/conversation`, {
+      const response = await axios.post(`/api/conversation`, {
         // userId : "user_2XfiuDpDLptmU5VWsKV5hiOcgco",
-        userId : userId , 
+        userId: userId,
         messages: newMessages,
       });
-      setMessages((current) => [...current, userMessage, response.data.data]);
+      console.log("Response recieved ", response.data);
+      const createMessage: ChatCompletionRequestMessage = {
+        role: "bot",
+        content: response.data,
+      };
+      setMessages((current) => [...current, userMessage, createMessage]);
       form.reset();
     } catch (Err: any) {
-      if(Err?.response?.status === 403){
+      if (Err?.response?.status === 403) {
         proModal.onOpen();
-      }else{
-        toast.error("Something went wrong")
+      } else {
+        toast.error("Something went wrong");
       }
     } finally {
       router.refresh();
